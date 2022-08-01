@@ -86,7 +86,7 @@ export default function Profile({ navigation, route }) {
           setOpenModal(false);
         }}
         animationType="fade"
-        // backgroundColor={APP_COLORS.BLACK_LIGHT_COLOR.color}
+        backgroundColor={APP_COLORS.BLACK_LIGHT_COLOR.color}
         content={<AccountReports/>}
         minHeight={Math.ceil(Dimensions.get("window").height / 1.3)}
         overlay="rgba(255,255,255,0.3)"

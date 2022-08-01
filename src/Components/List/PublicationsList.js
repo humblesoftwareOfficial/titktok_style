@@ -3,24 +3,49 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, RefreshControl, Text, View } from "react-native";
 
 import { defaultData } from "../../Configuration/api/data";
+import { paginationSimulation } from "../../Configuration/api/simulationbackend";
 import PublicationCard from "../Cards/Publication";
 
 const WIDTH = Dimensions.get("screen").width;
+const REACHED_POSITION = 2;
 
 export default function PublicationsList({}) {
   const [
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
   ] = useState(true);
-  const [publications, setPublications] = useState(defaultData);
+  const [publications, setPublications] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lastActiveIndexTrigerredRequest, setLastActiveIndexTrigerredRequest] =
+    useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activePage, setActivePage] = useState(1);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    console.log({ isFocused });
-  }, [isFocused]);
+    console.log({ activeIndex })
+    onActiveIndexChanged();
+  }, [activeIndex]);
+
+  useEffect(() => {
+    const newData = paginationSimulation(activePage);
+    setPublications(publications.concat(newData));
+  }, [activePage]);
+
+  useEffect(() => {
+    if (publications.length) {
+      setIsLoading(false);
+    }
+  }, [publications]);
+
+  useEffect(() => {
+    if (lastActiveIndexTrigerredRequest) {
+      console.log("here");
+      setActivePage(activePage + 1);
+    }
+  }, [lastActiveIndexTrigerredRequest]);
 
   const onViewableItemsChanged = (info) => {
     const { viewableItems, changed } = info;
@@ -38,8 +63,15 @@ export default function PublicationsList({}) {
 
   const onRefreshData = () => {};
 
-  const onEndReached = () => {
-    // console.log("end of list");
+  const onEndReached = ({ distanceFromEnd }) => {
+    if (!onEndReachedCalledDuringMomentum) {
+      setOnEndReachedCalledDuringMomentum(true);
+      // if (lastRequestHasData) {
+      //   setPage(page + 1);
+      //   setRetrievingData(true);
+      // }
+      console.log({ distanceFromEnd });
+    }
   };
 
   const getItemLayout = (data, index = 0) => ({
@@ -61,8 +93,20 @@ export default function PublicationsList({}) {
 
   const keyExtractor = useCallback((item) => item.code, [publications]);
 
+  const mustMakeNewRequest = () =>
+    activeIndex &&
+    activeIndex % REACHED_POSITION === 0 &&
+    activeIndex > lastActiveIndexTrigerredRequest;
+
+  const onActiveIndexChanged = () => {
+    if (mustMakeNewRequest()) {
+      setLastActiveIndexTrigerredRequest(activeIndex);
+    }
+  };
+
   return (
     <FlatList
+      bounces={false}
       style={{ backgroundColor: "#000" }}
       viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
       disableIntervalMomentum
@@ -71,13 +115,13 @@ export default function PublicationsList({}) {
       keyExtractor={keyExtractor}
       maxToRenderPerBatch={6}
       onEndReachedThreshold={0.5}
+      onEndReached={onEndReached}
       updateCellsBatchingPeriod={100}
       initialNumToRender={3}
       onMomentumScrollBegin={() => {
         setOnEndReachedCalledDuringMomentum(false);
       }}
       onMomentumScrollEnd={(event) => {
-        onEndReached();
         setActiveIndex(
           Math.floor(
             Math.floor(event.nativeEvent.contentOffset.x) /
