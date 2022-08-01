@@ -1,9 +1,13 @@
 import { Video } from "expo-av";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Dimensions, Text, TouchableOpacity, View } from "react-native";
 
-import { CARD_VIDEO_STYLE, VIDEOS_PREVIEW_STYLE, WIDTH } from "../../Styling/Videos";
+import { CARD_VIDEO_STYLE, VIDEOS_PREVIEW_STYLE } from "../../Styling/Videos";
+import { formatVideo } from "../../utils/medias";
 import GameLoading from "../Loaders/GameLoading";
+
+const WIDTH = Dimensions.get("screen").width;
+const HEIGHT = Dimensions.get("screen").height;
 
 export default function VideoPreview({ uri, defaultPlay = false }) {
   const video = useRef(null);
@@ -24,13 +28,13 @@ export default function VideoPreview({ uri, defaultPlay = false }) {
   };
 
   return (
-    <TouchableOpacity style={{ flex: 1 }} onPress={playVideo} activeOpacity={1}>
+    <TouchableOpacity style={{ flex: 1}} onPress={playVideo} activeOpacity={1}>
       <View style={VIDEOS_PREVIEW_STYLE.container_video}>
         <Video
           ref={video}
           style={[CARD_VIDEO_STYLE.video, { width: WIDTH }]}
           source={{
-            uri,
+            uri: formatVideo("https://res.cloudinary.com/faceshop/video/upload/v1648665011/mnz6annksc979v9synkn.mov", Math.ceil(WIDTH), Math.ceil(HEIGHT)),
           }}
           resizeMode="contain"
           isLooping

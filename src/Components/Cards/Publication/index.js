@@ -33,7 +33,7 @@ export default function PublicationCard({ publication, isActiveIndex = false }) 
       <View style={PUBLICATION_CARD_STYLE.media_container}>
         <VideoPreview uri={publication.video.url} defaultPlay={isActiveIndex}/>
       </View>
-      <View>
+      <View style={PUBLICATION_CARD_STYLE.details}>
         <View style={PUBLICATION_CARD_STYLE.infos_container}>
           <Avatar
             width={AVATAR_DEFAULT_WIDTH}

@@ -6,10 +6,11 @@ import { defaultData } from "../../Configuration/api/data";
 import { paginationSimulation } from "../../Configuration/api/simulationbackend";
 import PublicationCard from "../Cards/Publication";
 
+
 const WIDTH = Dimensions.get("screen").width;
 const REACHED_POSITION = 2;
 
-export default function PublicationsList({}) {
+export default function PublicationsList({ }) {
   const [
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
@@ -105,9 +106,10 @@ export default function PublicationsList({}) {
   };
 
   return (
-    <FlatList
+    <View style={{ flex: 1 }}>
+      <FlatList
       bounces={false}
-      style={{ backgroundColor: "#000" }}
+      style={{ backgroundColor: "#FFF" }}
       viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
       disableIntervalMomentum
       data={publications}
@@ -142,5 +144,6 @@ export default function PublicationsList({}) {
       snapToAlignment="start"
       decelerationRate="fast"
     />
+    </View>
   );
 }

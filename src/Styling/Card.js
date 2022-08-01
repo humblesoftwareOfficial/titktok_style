@@ -11,7 +11,7 @@ export const PUBLICATION_CARD_STYLE = StyleSheet.create({
   },
   media_container: {
     flex: 1,
-    backgroundColor: "yellow",
+    backgroundColor: "#000",
     justifyContent: "center",
   },
   infos_container: {
@@ -48,6 +48,13 @@ export const PUBLICATION_CARD_STYLE = StyleSheet.create({
     fontSize: 12,
     color: APP_COLORS.LIGHT_COLOR.color,
     marginLeft: 15,
+  },
+  details: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flex: 1
   }
 });
 
