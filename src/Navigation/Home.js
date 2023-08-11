@@ -1,6 +1,12 @@
-import { AntDesign, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import React from "react";
+import {
+  AntDesign,
+  FontAwesome5,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import React, { useEffect } from "react";
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
+import { useNavigationState, useRoute } from "@react-navigation/native";
 
 import { APP_COLORS } from "../Styling/System";
 import { SCREENS_NAME } from "../utils/system";
@@ -12,7 +18,14 @@ import ShareVideo from "./Screens/Home/ShareVideo";
 
 const Tabs = AnimatedTabBarNavigator();
 
-export default () => {
+export default ({ navigation }) => {
+  // const state = useNavigationState(state => state);
+  
+
+  // useEffect(() => {
+  //   console.log({state});
+  // }, [state]);
+
   return (
     <Tabs.Navigator
       initialRouteName={SCREENS_NAME.Profile}

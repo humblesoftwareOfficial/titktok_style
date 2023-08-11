@@ -34,7 +34,7 @@ export default function VideoPreview({ uri, defaultPlay = false }) {
           ref={video}
           style={[CARD_VIDEO_STYLE.video, { width: WIDTH }]}
           source={{
-            uri: formatVideo("https://res.cloudinary.com/faceshop/video/upload/v1648665011/mnz6annksc979v9synkn.mov", Math.ceil(WIDTH), Math.ceil(HEIGHT)),
+            uri: formatVideo(uri, Math.ceil(WIDTH), Math.ceil(HEIGHT)),
           }}
           resizeMode="contain"
           isLooping

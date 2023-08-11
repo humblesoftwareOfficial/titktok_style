@@ -17,6 +17,10 @@ export default function PublicationCard({ publication, isActiveIndex = false }) 
   const animationHeart = useRef(null);
 
   useEffect(() => {
+    console.log('COMPONENT MOUNTED')
+  }, [])
+
+  useEffect(() => {
     if (showClap) {
       activeAnimationHeart();
     }
